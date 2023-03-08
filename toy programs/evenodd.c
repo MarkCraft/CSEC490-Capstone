@@ -1,20 +1,9 @@
 #include <stdio.h>
-#include <windows.h>
 int main() {
-
-    int num, exit;
-
-    printf("Enter a number: ");
+    int num;
+    printf("Enter an integer: ");
     scanf("%d", &num);
-
-    if(num % 2 == 0){
-        printf("number is even\n");
-
-    }
-    else{
-        printf("number is odd\n");
-    }
-    printf("hit any key to continue");
-    scanf("%d", &exit);
+    
+    (num % 2 == 0) ? printf("%d is even.", num) : printf("%d is odd.", num);
     return 0;
 }
