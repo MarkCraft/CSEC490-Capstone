@@ -1,0 +1,74 @@
+Ddisasm Installation/Setup Instructions:
+
+A large amount of these steps came from the official Ddisasm github page (https://github.com/GrammaTech/ddisasm); However, following those instructions
+verbatim did not work, so alternate steps were added in. There may be repetative steps/commands, but ultimately these were found to work. Note that PE file usage on an Ubuntu machine was never successful, although it is possible. Instead an Ubuntu machine was used for ELF files, while a Windows 11 machine was used for PE files.
+
+
+Ubuntu installation:
+- Get Ubuntu 18.04 image
+- Install/setup Ddisasm:
+ * First, update and install necessary packages:
+   > apt update
+   > apt install pip
+   > apt install python3-pip python-pip
+   > sudo add-apt-repository ppa:deadsnakes/ppa
+   > sudo apt update
+   > sudo apt install python3.8
+   > sudo apt install software-properties-common
+   > sudo apt install python3.9
+ * Second, set correct version of python as default:
+   > sudo update-alternatives --list python
+   > sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 2
+   > sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 3
+   > sudo update-alternatives --config python
+   > Choose python 3.9
+ * Third, install and set up gtirb/llvm libraries:
+   > pip install gtirb
+   > apt install python-pip
+   > sudo apt autoremove
+   > pip install gtirb
+   > sudo apt-get install python3-pip
+   > pip3 install gtirb
+   > pip install https://download.grammatech.com/gtirb/files/python/gtirb-unstable-py3-none-any.whl
+   > pip3 install https://download.grammatech.com/gtirb/files/python/gtirb-unstable-py3-none-any.whl
+   > wget -O - https://download.grammatech.com/gtirb/files/apt-repo/conf/apt.gpg.key | apt-key add -
+   > echo "deb https://download.grammatech.com/gtirb/files/apt-repo bionic stable"| sudo tee -a /etc/apt/sources.list
+      >> If you are doing this on Ubuntu 20.04 then change “bionic” to “focal”
+   > sudo apt-get update
+   > add-apt-repository ppa:mhier/libboost-latest
+   > sudo apt-get install libgtirb gtirb-pprinter ddisasm
+   > apt install cmake
+   > apt install libprotobuf-dev
+   > apt install protobuf-compiler
+   > sudo apt-get install libboost-all-dev
+   > sudo apt install llvm
+   > sudo apt install llvm-dev
+- NOTE: This still won’t work for PE files unless you do a few other special things. We never got PE files working for our Ubuntu image, however it is possible - https://github.com/GrammaTech/ddisasm/issues/56
+
+
+Windows Installation:
+- Get Windows image - We used an official Windows 11 image from Microsoft
+- Install/setup Ddisasm:
+ * First, download the necessary packages:
+   > Download and unzip ddisasm-1.5.6 and gtirb-pprinter-1.8.6 (You might also need to donwload/unzip gtirb-1.10.9)
+      >> https://download.grammatech.com/gtirb/files/windows-release/
+ * Second, setup the Windows environment:
+Run Administrator cmd
+Cd into the \ddisasm\bin\ directory
+   > Run “C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat x64”
+   > Run  “C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat x86”
+   > Run  “C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat x64”
+   > Run  “C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars32.bat x86”
+      >> If this didn’t work then you might need to use the x86 command. Reference the “Developer command file locations” section of this article -  https://learn.microsoft.com/en-us/cpp/build/building-on-the-command-line?view=msvc-170#developer_command_file_locations
+
+
+Usage:
+- Run Ddisasm and gtirb-pprinter like shown below: (Usage - https://github.com/grammatech/ddisasm)
+ * To raise to asm and then recompile:
+   > ddisasm hello --asm hello.s
+   > gcc -nostartfiles hello.s -o hello_recompiled
+   > hello_recompiled
+ * To raise to .gtirb and then recompile:
+   > ddisasm hello --ir hello.gtirb
+   > gtirb-pprinter hello.gtirb --binary hello_2
+   > ./hello_2

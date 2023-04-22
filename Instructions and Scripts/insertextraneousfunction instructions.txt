@@ -1,0 +1,20 @@
+Using gtirb-rewriting: https://github.com/GrammaTech/gtirb-rewriting
+
+Suggestions:
+- Look at the "Getting Started" guide: https://github.com/GrammaTech/gtirb-rewriting/blob/main/doc/Getting-Started.md
+- Watch the gtirb-rewriting presentation: https://download.grammatech.com/research/gtirb-rewriting.mp4
+
+Script modifications:
+- A "patch" is how you can insert into the GTIRB file
+- insertextraneousfunction.py does the following:
+  * Inserts "fake_patch" into the given GTIRB file, and makes it named "Extraneous"
+  * Prints the returned results from "register_insert_function()" 
+- You can write your own functions/patches in the same format, but replace the fake instructions with the lines of code you wish to insert as a function
+
+Usage:
+- Lift to GTIRB using Ddisasm
+- Run the script with:
+  * "python .\insertdummcode.py 'inputfile.gtirb' 'outputfile.gtirb'"
+- Either save the modified GTIRB file to a .txt file for viewing, or recompile to .exe:
+  * "gtirb-pprinter 'outputfile.gtirb' >> 'outputtext.txt'"
+  * "gtirb-pprinter 'outputfile.gtirb' --binary 'outputexe.exe
